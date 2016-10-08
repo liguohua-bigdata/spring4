@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd
+       ">
+    <!--一,bean之间的继承关系-->
+    <!--1.完全手动装配,发现有大量的重复-->
+    <bean id="car1" class="tonggang0004.Car" p:name="xiaohei-1" p:brand="hongqi" p:price="9.008"/>
+    <bean id="car2" class="tonggang0004.Car" p:name="xiaohei-2" p:brand="hongqi" p:price="9.008"/>
+
+    <!--2.使用bean继承进行装配,子bean可以重写父bean的属性-->
+    <bean id="car11" class="tonggang0004.Car" p:name="xiaohei-11" p:brand="hongqi" p:price="9.008"/>
+    <bean id="car22" parent="car11" p:name="xiaohei-22"/>
+
+    <!--3.抽象的父bean不能被实例化,省略class属性的bean一定是抽象bean-->
+    <bean id="car111" class="tonggang0004.Car" abstract="true" p:name="xiaohei-111" p:brand="hongqi" p:price="9.008"/>
+    <bean id="car222" parent="car111" p:name="xiaohei-222"/>
+
+    <!--4.构造方法注入方式的写法-->
+    <bean id="car1111" class="tonggang0004.Car" abstract="true">
+        <constructor-arg name="name" value="xiaohei1111"/>
+        <constructor-arg name="brand" value="changcheng"/>
+        <constructor-arg name="price" value="388.7"/>
+    </bean>
+    <bean id="car2222" parent="car1111">
+        <constructor-arg name="name" value="xiaohei2222"/>
+    </bean>
+
+
+
+    <!--二,bean直接的依赖关系-->
+    <bean id="car-user" class="tonggang0004.Car" abstract="false" p:name="xiaobai" p:brand="audi" p:price="777.98"/>
+    <!--没有所依赖的bean,它不能成功创建,不能依赖于抽象bean-->
+    <bean id="user" class="tonggang0004.User" depends-on="car-user" p:name="alimax"/>
+
+</beans>

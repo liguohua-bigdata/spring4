@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder location="classpath:mysql.properties"/>
+    <!--1.静态工厂方法的讲解-->
+    <!--静态工厂方法,用于创建对象-->
+    <bean id="car1" class="o009factory.StaticFactory" factory-method="getCar">
+        <!--静态方法的参数-->
+        <constructor-arg value="audi"/>
+    </bean>
+    <!--静态工厂方法,用于创建对象-->
+    <bean id="car2" class="o009factory.StaticFactory" factory-method="getCar">
+        <!--静态方法的参数-->
+        <constructor-arg value="baoma"/>
+    </bean>
+
+
+    <!--2.实例工厂方法的讲解-->
+    <!--配置工厂-->
+    <bean class="o009factory.InstaceFactory" id="factory"/>
+    <bean class="o009factory.Car" id="car3" factory-bean="factory" factory-method="getCar">
+        <!--实例工厂方法的参数-->
+        <constructor-arg value="audi"/>
+    </bean>
+    <bean class="o009factory.Car" id="car4" factory-bean="factory" factory-method="getCar">
+        <!--实例工厂方法的参数-->
+        <constructor-arg value="baoma"/>
+    </bean>
+
+
+    <!--3.FactoryBean的讲解-->
+    <!--用FactoryBean的创建对象-->
+    <bean class="o009factory.MyFactoryBean" id="car5" p:price="1232342.121" p:height="65.90"/>
+    <bean class="o009factory.MyFactoryBean" id="car6" p:price="2332342.121" p:height="69.90"/>
+
+</beans>

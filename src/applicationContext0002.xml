@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd
+
+       ">
+    <!--一,不用命名空间的做法-->
+    <!--被引用对象-->
+    <bean id="car1" class="tonggang0002.Car">
+        <constructor-arg name="brand" value="changcheng1"/>
+        <constructor-arg name="price" value="1988.7"/>
+    </bean>
+    <bean id="car2" class="tonggang0002.Car">
+        <constructor-arg name="brand" value="changcheng2"/>
+        <constructor-arg name="price" value="2988.7"/>
+    </bean>
+    <bean id="car3" class="tonggang0002.Car">
+        <constructor-arg name="brand" value="changcheng3"/>
+        <constructor-arg name="price" value="3988.7"/>
+    </bean>
+    <!--引用对象-->
+    <bean class="tonggang0002.Driver" id="driver">
+
+
+        <property name="name" value="jack"/>
+        <!--array字面值-->
+        <property name="phoneNums3">
+            <array>
+                <value>array-1111</value>
+                <value>array-2222</value>
+            </array>
+        </property>
+        <!--array引用值-->
+        <property name="cars3">
+            <array>
+                <!--外部bean-->
+                <ref bean="car1"/>
+                <ref bean="car2"/>
+                <!--内部bean-->
+                <bean id="car3" class="tonggang0002.Car">
+                    <constructor-arg name="brand" value="changcheng4"/>
+                    <constructor-arg name="price" value="4988.7"/>
+                </bean>
+            </array>
+        </property>
+
+
+        <!--list字面值-->
+        <property name="phoneNums">
+            <list>
+                <value>list-1111</value>
+                <value>list-2222</value>
+            </list>
+        </property>
+        <!--list引用值-->
+        <property name="cars">
+            <list>
+                <!--外部bean-->
+                <ref bean="car1"/>
+                <ref bean="car2"/>
+                <!--内部bean-->
+                <bean id="car4" class="tonggang0002.Car">
+                    <constructor-arg name="brand" value="changcheng4"/>
+                    <constructor-arg name="price" value="4988.7"/>
+                </bean>
+            </list>
+        </property>
+
+
+        <!--set字面值-->
+        <property name="phoneNums2">
+            <set>
+                <value>set-1111</value>
+                <value>set-2222</value>
+            </set>
+        </property>
+        <!--set引用值-->
+        <property name="cars2">
+            <set>
+                <!--外部bean-->
+                <ref bean="car1"/>
+                <ref bean="car2"/>
+                <!--内部bean-->
+                <bean id="car3" class="tonggang0002.Car">
+                    <constructor-arg name="brand" value="changcheng4"/>
+                    <constructor-arg name="price" value="4988.7"/>
+                </bean>
+            </set>
+        </property>
+
+
+        <!--map字面值到引用-->
+        <property name="carMap">
+            <map>
+                <entry key="map-car001" value-ref="car1"/>
+                <entry key="map-car002" value-ref="car2"/>
+                <entry key="map-car003">
+                    <!--内部bean-->
+                    <bean id="car3" class="tonggang0002.Car">
+                        <constructor-arg name="brand" value="changcheng4"/>
+                        <constructor-arg name="price" value="4988.7"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+        <!--map引用到字面值-->
+        <property name="carMap2">
+            <map>
+                <entry key-ref="car1" value="car001-map"/>
+                <entry key-ref="car1" value="car002-map"/>
+                <!--无法使用内部bean作为key-->
+            </map>
+        </property>
+
+        <!--properties注入-->
+        <property name="driverPros">
+            <props>
+                <prop key="id">001</prop>
+                <prop key="name">chengke001</prop>
+                <prop key="addr">addr001</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <!--二,使用命名空间的做法-->
+    <util:list id="util-list-phoneNum">
+        <value>util-000999</value>
+        <value>util-999888</value>
+    </util:list>
+    <util:list id="util-list-cars">
+        <ref bean="car1"/>
+        <ref bean="car2"/>
+        <bean id="car3" class="tonggang0002.Car">
+            <constructor-arg name="brand" value="changcheng4"/>
+            <constructor-arg name="price" value="4988.7"/>
+        </bean>
+    </util:list>
+    <util:set id="util-set-cars">
+        <!--内部bean-->
+        <ref bean="car1"/>
+        <ref bean="car2"/>
+        <!--内部bean-->
+        <bean id="car3" class="tonggang0002.Car">
+            <constructor-arg name="brand" value="changcheng4"/>
+            <constructor-arg name="price" value="4988.7"/>
+        </bean>
+    </util:set>
+    <util:map id="util-map-cars">
+        <entry key="map-car001" value-ref="car1"/>
+        <entry key="map-car002" value-ref="car2"/>
+        <entry key="map-car003">
+            <!--内部bean-->
+            <bean id="car3" class="tonggang0002.Car">
+                <constructor-arg name="brand" value="changcheng4"/>
+                <constructor-arg name="price" value="4988.7"/>
+            </bean>
+        </entry>
+    </util:map>
+    <util:properties id="util-pros-driver">
+        <prop key="id">001</prop>
+        <prop key="name">chengke001</prop>
+        <prop key="addr">addr001</prop>
+    </util:properties>
+    <!--引用命名空间中的内容-->
+    <bean class="tonggang0002.Driver" id="driver2">
+        <property name="name" value="jack"/>
+        <property name="cars" ref="util-list-cars"/>
+        <property name="cars2" ref="util-set-cars"/>
+        <property name="cars3" ref="util-list-cars"/>
+        <property name="carMap" ref="util-map-cars"/>
+        <property name="driverPros" ref="util-pros-driver"/>
+    </bean>
+    <bean class="tonggang0002.Driver" id="driver3">
+        <property name="name" value="jack"/>
+        <property name="cars" ref="util-list-cars"/>
+        <property name="cars2" ref="util-set-cars"/>
+        <property name="cars3" ref="util-list-cars"/>
+        <property name="carMap" ref="util-map-cars"/>
+        <property name="driverPros" ref="util-pros-driver"/>
+    </bean>
+
+
+    <!--使用P命名空间-->
+    <bean id="user" class="tonggang0002.User" p:name="make" p:car-ref="car1" p:phoneNum-ref="util-list-phoneNum"  p:cars-ref="util-list-cars" />
+</beans>

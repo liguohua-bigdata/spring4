@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+        1.id是bean的标识
+        2.class是bean的全类名
+        3.使用Java的反射进行创建对象
+    -->
+    <bean id="user" class="tonggang0001.User">
+        <!--利用setter进行属性注入-->
+        <property name="name" value="zhangsan"/>
+    </bean>
+
+    <!--利用构造器进行注入-->
+    <bean id="car" class="tonggang0001.Car">
+        <constructor-arg name="age" value="1"/>
+        <constructor-arg name="brand" value="changcheng"/>
+        <constructor-arg name="price" value="1988.7"/>
+    </bean>
+
+    <!--利用构造器进行注入-->
+    <bean id="phone" class="tonggang0001.Phone">
+        <constructor-arg name="since" value="1"/>
+        <constructor-arg name="brand" value="changcheng"/>
+        <constructor-arg name="price" value="1988.7"/>
+    </bean>
+    <!--利用构造器进行注入,对象引用-->
+   <bean id="driver" class="tonggang0001.Driver">
+       <property name="name" value="李四"/>
+       <property name="car" ref="car"/>
+       <!--内部bean,外部无法使用-->
+       <property name="car0">
+           <bean id="car0" class="tonggang0001.Car">
+               <constructor-arg name="age" value="5"/>
+               <constructor-arg name="brand" value="5"/>
+               <constructor-arg name="price" value="5.5"/>
+           </bean>
+       </property>
+
+   </bean>
+
+</beans>
